@@ -6,9 +6,10 @@ import TodoFilter from './components/TodoFilter'
 import TodoCount from './components/TodoCount'
 import { filterTodos } from './utils/filterTodos'
 import { countActiveTodos } from './utils/countActiveTodos'
+import { useLocalStorage } from './hooks/useLocalStorage'
 
 function App() {
-  const [todos, setTodos] = useState<Todo[]>([])
+  const [todos, setTodos] = useLocalStorage<Todo[]>('todo-app-todos', [])
   const [filter, setFilter] = useState<FilterType>('all')
 
   const handleAdd = (text: string) => {

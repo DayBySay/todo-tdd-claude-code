@@ -248,4 +248,75 @@ test.describe('Todo App', () => {
       await expect(page.getByText('Read a book')).toBeVisible()
     })
   })
+
+  test.describe('LocalStorage 永続化', () => {
+    test('Todo を追加してリロード → 復元される', async ({ page }) => {
+      const input = page.getByPlaceholder('What needs to be done?')
+      await input.fill('Persistent task')
+      await input.press('Enter')
+
+      await expect(page.getByText('Persistent task')).toBeVisible()
+
+      await page.reload()
+
+      await expect(page.getByText('Persistent task')).toBeVisible()
+    })
+
+    test('Todo を完了にしてリロード → 完了状態が維持される', async ({ page }) => {
+      const input = page.getByPlaceholder('What needs to be done?')
+      await input.fill('Complete me')
+      await input.press('Enter')
+
+      const checkbox = page.getByRole('checkbox')
+      await checkbox.click()
+      await expect(checkbox).toBeChecked()
+
+      await page.reload()
+
+      const reloadedCheckbox = page.getByRole('checkbox')
+      await expect(reloadedCheckbox).toBeChecked()
+    })
+
+    test('Todo を削除してリロード → 削除が反映される', async ({ page }) => {
+      const input = page.getByPlaceholder('What needs to be done?')
+      await input.fill('Delete me')
+      await input.press('Enter')
+      await input.fill('Keep me')
+      await input.press('Enter')
+
+      await expect(page.getByText('Delete me')).toBeVisible()
+      await expect(page.getByText('Keep me')).toBeVisible()
+
+      const deleteButtons = page.getByRole('button', { name: '×' })
+      await deleteButtons.first().click()
+
+      await expect(page.getByText('Delete me')).not.toBeVisible()
+      await expect(page.getByText('Keep me')).toBeVisible()
+
+      await page.reload()
+
+      await expect(page.getByText('Delete me')).not.toBeVisible()
+      await expect(page.getByText('Keep me')).toBeVisible()
+    })
+
+    test('フィルター状態はリロードで All にリセットされる', async ({ page }) => {
+      const input = page.getByPlaceholder('What needs to be done?')
+      await input.fill('Active task')
+      await input.press('Enter')
+      await input.fill('Completed task')
+      await input.press('Enter')
+
+      const checkboxes = page.getByRole('checkbox')
+      await checkboxes.nth(1).click()
+
+      await page.getByRole('button', { name: 'Completed' }).click()
+      await expect(page.getByRole('button', { name: 'Completed' })).toHaveClass(/selected/)
+
+      await page.reload()
+
+      await expect(page.getByRole('button', { name: 'All' })).toHaveClass(/selected/)
+      await expect(page.getByText('Active task')).toBeVisible()
+      await expect(page.getByText('Completed task')).toBeVisible()
+    })
+  })
 })
