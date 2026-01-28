@@ -8,16 +8,17 @@ interface TodoItemProps {
 
 function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
   return (
-    <li>
+    <li className="todo-item">
       <input
         type="checkbox"
+        className="todo-checkbox"
         checked={todo.completed}
         onChange={() => onToggle(todo.id)}
       />
-      <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>
+      <span className={`todo-text ${todo.completed ? 'completed' : ''}`}>
         {todo.text}
       </span>
-      <button onClick={() => onDelete(todo.id)}>×</button>
+      <button className="todo-delete" onClick={() => onDelete(todo.id)}>×</button>
     </li>
   )
 }

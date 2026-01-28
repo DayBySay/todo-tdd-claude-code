@@ -20,6 +20,7 @@ function TodoInput({ onAdd }: TodoInputProps) {
   return (
     <input
       type="text"
+      className="todo-input"
       placeholder="What needs to be done?"
       value={value}
       onChange={(e) => setValue(e.target.value)}

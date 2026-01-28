@@ -51,7 +51,7 @@ describe('App', () => {
     await user.click(checkbox)
 
     expect(screen.getByText('0 items left')).toBeInTheDocument()
-    expect(screen.getByText('Buy milk')).toHaveStyle({ textDecoration: 'line-through' })
+    expect(screen.getByText('Buy milk')).toHaveClass('completed')
   })
 
   it('deletes a todo', async () => {

@@ -17,18 +17,18 @@ describe('TodoItem', () => {
     expect(onToggle).toHaveBeenCalledWith('1')
   })
 
-  it('shows line-through on completed todo text', () => {
+  it('shows completed class on completed todo text', () => {
     render(<TodoItem todo={completedTodo} onToggle={() => {}} onDelete={() => {}} />)
 
     const text = screen.getByText('Walk the dog')
-    expect(text).toHaveStyle({ textDecoration: 'line-through' })
+    expect(text).toHaveClass('completed')
   })
 
-  it('does not show line-through on incomplete todo text', () => {
+  it('does not show completed class on incomplete todo text', () => {
     render(<TodoItem todo={incompleteTodo} onToggle={() => {}} onDelete={() => {}} />)
 
     const text = screen.getByText('Buy milk')
-    expect(text).not.toHaveStyle({ textDecoration: 'line-through' })
+    expect(text).not.toHaveClass('completed')
   })
 
   it('shows checked checkbox for completed todo', () => {

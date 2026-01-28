@@ -14,11 +14,11 @@ function TodoFilter({ currentFilter, onFilterChange }: TodoFilterProps) {
   }
 
   return (
-    <div>
+    <div className="todo-filters">
       {filters.map((filter) => (
         <button
           key={filter}
-          className={currentFilter === filter ? 'selected' : ''}
+          className={`filter-button ${currentFilter === filter ? 'selected' : ''}`}
           onClick={() => onFilterChange(filter)}
         >
           {labels[filter]}

@@ -40,18 +40,22 @@ function App() {
     <div>
       <h1>Todo App</h1>
       <TodoInput onAdd={handleAdd} />
-      <ul>
-        {filteredTodos.map((todo) => (
-          <TodoItem
-            key={todo.id}
-            todo={todo}
-            onToggle={handleToggle}
-            onDelete={handleDelete}
-          />
-        ))}
-      </ul>
-      <TodoFilter currentFilter={filter} onFilterChange={setFilter} />
-      <TodoCount count={activeCount} />
+      <div className="todo-container">
+        <ul className="todo-list">
+          {filteredTodos.map((todo) => (
+            <TodoItem
+              key={todo.id}
+              todo={todo}
+              onToggle={handleToggle}
+              onDelete={handleDelete}
+            />
+          ))}
+        </ul>
+        <div className="todo-footer">
+          <TodoCount count={activeCount} />
+          <TodoFilter currentFilter={filter} onFilterChange={setFilter} />
+        </div>
+      </div>
     </div>
   )
 }
